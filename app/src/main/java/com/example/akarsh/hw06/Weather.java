@@ -7,9 +7,9 @@ package com.example.akarsh.hw06;
 public class Weather {
 
     private String cityId, city, country, temperature, temperatureUnit,maximumTemperature,minimumTemperature,
-    windSpeed,windDirection,pressure,humidity,condition,time;
+    windSpeed,windDirection,pressure,humidity,condition,time,iconImgUrl;
 
-    public Weather(String cityId, String city, String country, String temperature, String temperatureUnit, String maximumTemperature, String minimumTemperature, String windSpeed, String windDirection, String pressure, String humidity, String condition) {
+    public Weather(String cityId, String city, String country, String temperature, String temperatureUnit, String maximumTemperature, String minimumTemperature, String windSpeed, String windDirection, String pressure, String humidity, String condition, String time, String iconImgUrl) {
         this.cityId = cityId;
         this.city = city;
         this.country = country;
@@ -22,6 +22,16 @@ public class Weather {
         this.pressure = pressure;
         this.humidity = humidity;
         this.condition = condition;
+        this.time = time;
+        this.iconImgUrl = iconImgUrl;
+    }
+
+    public String getIconImgUrl() {
+        return iconImgUrl;
+    }
+
+    public void setIconImgUrl(String iconImgUrl) {
+        this.iconImgUrl = iconImgUrl;
     }
 
     public String getTime() {

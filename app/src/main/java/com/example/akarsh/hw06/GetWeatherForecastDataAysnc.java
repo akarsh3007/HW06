@@ -1,6 +1,7 @@
 package com.example.akarsh.hw06;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +56,7 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
         if(weathers!=null)
         {
             dataHandler.weatherDataUpdated(weathers);
+            
         }
     }
 
@@ -71,11 +73,11 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
             String cityId = forcastJSONObject.getString("id");
             String cityName = forcastJSONObject.getString("name");
             String country = forcastJSONObject.getString("country");
-
             JSONArray forecastJSONList = rootJSON.getJSONArray("list");
             for(int index = 0; index < forecastJSONList.length(); index++)
             {
                 JSONObject currentForecast = forecastJSONList.getJSONObject(index);
+                String dateTime = currentForecast.getString("dt_txt");
                 JSONObject currentMain = currentForecast.getJSONObject("main");
                 JSONArray currentWeather = currentForecast.getJSONArray("weather");
                 JSONObject currentWind = currentForecast.getJSONObject("wind");
@@ -86,10 +88,11 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
                 String pressure = currentMain.getString("pressure");
                 String humidity = currentMain.getString("humidity");
                 String weatherType = currentWeather.getJSONObject(0).getString("description");
+                String imageIconUrl =  "http://api.openweathermap.org/img/w/" + currentWeather.getJSONObject(0).getString("icon");
                 String windSpeed = currentWind.getString("speed");
                 String windDir = currentWind.getString("deg");
 
-                Weather weather = new Weather(cityId,cityName,country,temp,null,maxTemp,minTemp,windSpeed,windDir,pressure,humidity,weatherType);
+                Weather weather = new Weather(cityId,cityName,country,temp,null,maxTemp,minTemp,windSpeed,windDir,pressure,humidity,weatherType,dateTime,imageIconUrl);
                 weatherList.add(weather);
             }
             return weatherList;
