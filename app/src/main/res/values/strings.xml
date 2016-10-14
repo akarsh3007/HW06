@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HW06</string>
+    <string name="hintCity">City (i.e. Charlotte)</string>
+    <string name="hintCountry">Country (i.e. US)</string>
+    <string name="buttonSearch">Submit</string>
+    <string name="textLabelNoFavorites">There are no cities to display. Search the city from the search box and save.</string>
+    <string name="errorNoCity">City is required</string>
+    <string name="errorNoState">State is required</string>
+    <string name="progressDataLodingText">Loading Data</string>
+</resources>
