@@ -1,10 +1,16 @@
 package com.example.akarsh.hw06;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static String CITY_EXTRAS_KEY = "extras_city";
     public static String COUNTRY_EXTRAS_KEY = "extras_country";
-    public static String FAVORITES_PREF_KEY = "FAVS";
+    public static String TEMP_PREF_KEY = "list_preference_temp_key";
 
     EditText txtCityName;
     EditText txtCountryName;
     Button  buttonSubmit;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +35,34 @@ public class MainActivity extends AppCompatActivity {
         txtCityName = (EditText) findViewById(R.id.editTextCity);
         txtCountryName = (EditText) findViewById(R.id.editTextCountry);
         buttonSubmit = (Button) findViewById(R.id.buttonSearch);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Weather App");
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actions,menu);
+        return  true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.settings:
+                invokeSettings();
+                return true;
+        }
+        return true;
+    }
+
+    private void invokeSettings() {
+        Intent intent = new Intent(this,Preferences.class);
+        startActivity(intent);
     }
 
     // Check internet connection

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="temperaturePreferences">
+        <item name="metric">°C</item>
+        <item name="imperial">°F</item>
+    </string-array>
+</resources>

@@ -56,7 +56,7 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
         if(weathers!=null)
         {
             dataHandler.weatherDataUpdated(weathers);
-            
+
         }
     }
 
