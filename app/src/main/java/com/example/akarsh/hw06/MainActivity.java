@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     EditText txtCityName;
     EditText txtCountryName;
     Button  buttonSubmit;
+
+    private List<FavoriteCity> favoriteCityList;
 
 
 
@@ -38,6 +45,17 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Weather App");
+
+        FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
+        favoriteCityList = dbManager.getAll();
+
+        // TEST CODE ONLY
+        favoriteCityList = new ArrayList<FavoriteCity>();
+        favoriteCityList.add(new FavoriteCity());
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
+        recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //------
 
     }
 
