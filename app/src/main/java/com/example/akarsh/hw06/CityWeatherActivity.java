@@ -3,6 +3,9 @@ package com.example.akarsh.hw06;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         url = url.replaceAll(" ","%20");
         progressLoadingData.show();
         new GetWeatherForecastDataAysnc(this).execute(url);
+
+        RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerDaily);
+        rv.setAdapter(new DailyWeatherListAdapter(this,null));
+        LinearLayoutManager lm = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
+        recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
+        recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
     }
 
     @Override

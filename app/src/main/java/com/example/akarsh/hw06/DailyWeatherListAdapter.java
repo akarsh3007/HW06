@@ -1,0 +1,66 @@
+package com.example.akarsh.hw06;
+
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherListAdapter.ViewHolder> {
+
+    private Context mContext;
+    private List<Weather> dailyWeatherList;
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView textDate;
+        public TextView textTemperature;
+        public ImageView imageWeather;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            textDate = (TextView) itemView.findViewById(R.id.textDate);
+            textTemperature = (TextView) itemView.findViewById(R.id.textTemperature);
+            imageWeather = (ImageView) itemView.findViewById(R.id.imageWeather);
+        }
+    }
+
+    public DailyWeatherListAdapter(Context mContext, List<Weather> dailyWeatherList) {
+        this.mContext = mContext;
+        this.dailyWeatherList = dailyWeatherList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View itemView = layoutInflater.inflate(R.layout.daily_forecast_view,parent,false);
+
+        // Make the View width exactly 1/3 of the container
+        ViewGroup.LayoutParams params = itemView.getLayoutParams();
+        params.width = parent.getWidth() / 3;
+        itemView.setLayoutParams(params);
+
+        // Return the new View
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.textTemperature.setText("TEST");
+        holder.textDate.setText("TEST");
+        holder.imageWeather.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 5;
+    }
+}
