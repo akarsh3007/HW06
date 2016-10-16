@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,13 +49,19 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
+        weatherData = new ArrayList<Weather>();
         recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
         recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
     }
 
     @Override
     public void weatherDataUpdated(ArrayList<Weather> weathers) {
+        weatherData.clear();
+        weatherData.addAll(weathers);
+        progressLoadingData.dismiss();
 
+        RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
+        recyclerHourly.getAdapter().notifyDataSetChanged();
     }
 
     @Override

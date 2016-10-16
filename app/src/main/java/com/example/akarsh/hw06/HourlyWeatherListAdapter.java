@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by ahmet on 16/10/2016.
- */
 
 public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeatherListAdapter.ViewHolder> {
 
@@ -52,12 +49,20 @@ public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeather
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textWind.setText("TEST");
+        Weather currentWeather = weatherArrayList.get(position);
+
+        holder.textWind.setText(currentWeather.getWindSpeed());
+        holder.textPressure.setText(currentWeather.getPressure());
+        holder.textHumidity.setText(currentWeather.getHumidity());
+        holder.textCondition.setText(currentWeather.getCondition());
+        holder.textTemperature.setText(currentWeather.getTemperature());
+        holder.textTime.setText(currentWeather.getTime());
+
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return weatherArrayList.size();
     }
 }
 
