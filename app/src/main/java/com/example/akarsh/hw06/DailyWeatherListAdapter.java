@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherListAdapter.ViewHolder> {
@@ -56,8 +58,9 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
 
         holder.textTemperature.setText(Double.toString(currentWeather.getAverageTemperature()));
         holder.textDate.setText(currentWeather.getDate());
-        holder.imageWeather.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
+        //holder.imageWeather.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
 
+        Picasso.with(mContext).load(currentWeather.getIconImgUrl()).into(holder.imageWeather);
 
     }
 

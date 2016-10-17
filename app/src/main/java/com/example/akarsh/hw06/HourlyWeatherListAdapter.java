@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -57,6 +59,8 @@ public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeather
         holder.textCondition.setText(mContext.getString(R.string.textLabelCondition) + currentWeather.getCondition());
         holder.textTemperature.setText(mContext.getString(R.string.textLabelTemperature) + currentWeather.getTemperature());
         holder.textTime.setText(currentWeather.getTime());
+
+        Picasso.with(mContext).load(currentWeather.getIconImgUrl()).into(holder.imageWeather);
 
     }
 
