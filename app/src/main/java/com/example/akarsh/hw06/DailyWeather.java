@@ -2,7 +2,7 @@ package com.example.akarsh.hw06;
 
 public class DailyWeather {
     private String cityId, city, country, temperatureUnit, iconImgUrl, date;
-    private double totalTemperature;
+    private double averageTemperature;
     private int dataPoints;
 
     public String getCityId() {
@@ -45,12 +45,12 @@ public class DailyWeather {
         this.iconImgUrl = iconImgUrl;
     }
 
-    public double getTotalTemperature() {
-        return totalTemperature;
+    public double getAverageTemperature() {
+        return averageTemperature;
     }
 
-    public void setTotalTemperature(double totalTemperature) {
-        this.totalTemperature = totalTemperature;
+    public void setAverageTemperature(double averageTemperature) {
+        this.averageTemperature = averageTemperature;
     }
 
     public int getDataPoints() {
@@ -67,10 +67,5 @@ public class DailyWeather {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getTemperature(){
-        double averageTemperature = this.totalTemperature / this.dataPoints;
-        return Double.toString(averageTemperature);
     }
 }

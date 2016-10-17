@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,35 +73,69 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         // Try to parse daily data here???
         SimpleDateFormat dailyDateFormat = new SimpleDateFormat("MMM dd, yyyy");
         String parsingDate = "";
-        int parsedData = 0;
 
-        DailyWeather newWeather = null;
-        ArrayList<DailyWeather> dailyWeather = new ArrayList<>();
+        ArrayList<Weather> dailyWeatherData = null;
         for (Weather currentWeather: weatherData)
         {
             String currentDate = dailyDateFormat.format(currentWeather.getDate());
-
             if (!currentDate.equals(parsingDate)){
-                // NEW DATE FOUND
+                if (dailyWeatherData != null) {
+                    dailyData.add(calculateDailyWeatherData(dailyWeatherData));
+                    dailyWeatherData.clear();
+                }
+
+                dailyWeatherData = new ArrayList<>();
                 parsingDate = currentDate;
-                newWeather = new DailyWeather();
-                newWeather.setDate(currentDate);
-                newWeather.setCityId(currentWeather.getCityId());
-                newWeather.setCity(currentWeather.getCity());
-                newWeather.setCountry(currentWeather.getCountry());
-                newWeather.setDataPoints(1);
-                newWeather.setTotalTemperature(Double.parseDouble(currentWeather.getTemperature()));
-                dailyData.add(newWeather);
+                dailyWeatherData.add(currentWeather);
             } else {
                 // STILL PARSING THE SAME DATE
-                newWeather.setDataPoints(newWeather.getDataPoints()+1);
-                newWeather.setTotalTemperature(newWeather.getTotalTemperature()+Double.parseDouble(currentWeather.getTemperature()));
+                dailyWeatherData.add(currentWeather);
             }
 
         }
+        // Generate the last daily data
+        if (dailyWeatherData != null) {
+            dailyData.add(calculateDailyWeatherData(dailyWeatherData));
+        }
+
 
         RecyclerView recyclerDaily = (RecyclerView) findViewById(R.id.recyclerDaily);
         recyclerDaily.getAdapter().notifyDataSetChanged();
+    }
+
+    public DailyWeather calculateDailyWeatherData(ArrayList<Weather> weatherData){
+        // Calculate the average temperature
+        double temperature = 0;
+        for (Weather hourlyData:weatherData
+             ) {
+            temperature += Double.parseDouble(hourlyData.getTemperature());
+        }
+        double averageTemperature = temperature / weatherData.size();
+
+        // Find the median item to use the icon
+        int medianData = weatherData.size()/2;
+        String medianImageURL = weatherData.get(medianData).getIconImgUrl();
+
+        // For all other properties we use the first weather data
+        Weather currentWeather = weatherData.get(0);
+
+        // Create the DailyWeather object
+        DailyWeather dailyWeatherData = new DailyWeather();
+
+        // Simplify the date format
+        SimpleDateFormat dataFormat = new SimpleDateFormat("MMM dd, yyyy");
+        dailyWeatherData.setDate(dataFormat.format(currentWeather.getDate()));
+
+        // Fill the remaining properties
+        dailyWeatherData.setCityId(currentWeather.getCityId());
+        dailyWeatherData.setCity(currentWeather.getCity());
+        dailyWeatherData.setCountry(currentWeather.getCountry());
+        dailyWeatherData.setAverageTemperature(temperature / weatherData.size());
+        dailyWeatherData.setIconImgUrl(medianImageURL);
+
+        // return the generated Data
+        return dailyWeatherData;
+
     }
 
     @Override
