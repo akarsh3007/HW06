@@ -7,4 +7,9 @@
     <string name="errorNoCity">City is required</string>
     <string name="errorNoState">State is required</string>
     <string name="progressDataLodingText">Loading Data</string>
+    <string name="textLabelWind">Wind:</string>
+    <string name="textLabelPressure">Pressure:</string>
+    <string name="textLabelHumidity">Humidity:</string>
+    <string name="textLabelCondition">Condition:</string>
+    <string name="textLabelTemperature">Temperature:</string>
 </resources>

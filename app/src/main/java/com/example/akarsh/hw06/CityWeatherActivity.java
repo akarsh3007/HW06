@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,6 +21,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     private String city;
     private String country;
     private ArrayList<Weather> weatherData;
+    private ArrayList<DailyWeather> dailyData;
     private TextView textViewCurrentLocation;
     String maximumTemperature;
     String minimumTemperature;
@@ -43,13 +45,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         progressLoadingData.show();
         new GetWeatherForecastDataAysnc(this).execute(url);
 
+        weatherData = new ArrayList<>();
+        dailyData = new ArrayList<>();
+
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerDaily);
-        rv.setAdapter(new DailyWeatherListAdapter(this,null));
+        rv.setAdapter(new DailyWeatherListAdapter(this,dailyData));
         LinearLayoutManager lm = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
-        weatherData = new ArrayList<Weather>();
         recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
         recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
     }
@@ -62,6 +66,41 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
         recyclerHourly.getAdapter().notifyDataSetChanged();
+
+
+        dailyData.clear();
+        // Try to parse daily data here???
+        SimpleDateFormat dailyDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        String parsingDate = "";
+        int parsedData = 0;
+
+        DailyWeather newWeather = null;
+        ArrayList<DailyWeather> dailyWeather = new ArrayList<>();
+        for (Weather currentWeather: weatherData)
+        {
+            String currentDate = dailyDateFormat.format(currentWeather.getDate());
+
+            if (!currentDate.equals(parsingDate)){
+                // NEW DATE FOUND
+                parsingDate = currentDate;
+                newWeather = new DailyWeather();
+                newWeather.setDate(currentDate);
+                newWeather.setCityId(currentWeather.getCityId());
+                newWeather.setCity(currentWeather.getCity());
+                newWeather.setCountry(currentWeather.getCountry());
+                newWeather.setDataPoints(1);
+                newWeather.setTotalTemperature(Double.parseDouble(currentWeather.getTemperature()));
+                dailyData.add(newWeather);
+            } else {
+                // STILL PARSING THE SAME DATE
+                newWeather.setDataPoints(newWeather.getDataPoints()+1);
+                newWeather.setTotalTemperature(newWeather.getTotalTemperature()+Double.parseDouble(currentWeather.getTemperature()));
+            }
+
+        }
+
+        RecyclerView recyclerDaily = (RecyclerView) findViewById(R.id.recyclerDaily);
+        recyclerDaily.getAdapter().notifyDataSetChanged();
     }
 
     @Override

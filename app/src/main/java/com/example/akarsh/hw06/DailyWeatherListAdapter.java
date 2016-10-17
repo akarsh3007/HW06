@@ -14,7 +14,7 @@ import java.util.List;
 public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherListAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<Weather> dailyWeatherList;
+    private List<DailyWeather> dailyWeatherList;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -31,9 +31,9 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
         }
     }
 
-    public DailyWeatherListAdapter(Context mContext, List<Weather> dailyWeatherList) {
+    public DailyWeatherListAdapter(Context mContext, List<DailyWeather> weatherList) {
         this.mContext = mContext;
-        this.dailyWeatherList = dailyWeatherList;
+        this.dailyWeatherList = weatherList;
     }
 
     @Override
@@ -52,8 +52,10 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textTemperature.setText("TEST");
-        holder.textDate.setText("TEST");
+        DailyWeather currentWeather = dailyWeatherList.get(position);
+
+        holder.textTemperature.setText(currentWeather.getTemperature());
+        holder.textDate.setText(currentWeather.getDate());
         holder.imageWeather.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
 
 
@@ -61,6 +63,6 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
 
     @Override
     public int getItemCount() {
-        return 5;
+        return dailyWeatherList.size();
     }
 }

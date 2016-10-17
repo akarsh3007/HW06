@@ -1,5 +1,9 @@
 package com.example.akarsh.hw06;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Akarsh on 10/14/2016.
  */
@@ -136,5 +140,15 @@ public class Weather {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public Date getDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        try {
+            return dateFormat.parse(getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -51,11 +51,11 @@ public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeather
     public void onBindViewHolder(ViewHolder holder, int position) {
         Weather currentWeather = weatherArrayList.get(position);
 
-        holder.textWind.setText(currentWeather.getWindSpeed());
-        holder.textPressure.setText(currentWeather.getPressure());
-        holder.textHumidity.setText(currentWeather.getHumidity());
-        holder.textCondition.setText(currentWeather.getCondition());
-        holder.textTemperature.setText(currentWeather.getTemperature());
+        holder.textWind.setText(mContext.getString(R.string.textLabelWind) + currentWeather.getWindSpeed());
+        holder.textPressure.setText(mContext.getString(R.string.textLabelPressure) + currentWeather.getPressure());
+        holder.textHumidity.setText(mContext.getString(R.string.textLabelHumidity) + currentWeather.getHumidity());
+        holder.textCondition.setText(mContext.getString(R.string.textLabelCondition) + currentWeather.getCondition());
+        holder.textTemperature.setText(mContext.getString(R.string.textLabelTemperature) + currentWeather.getTemperature());
         holder.textTime.setText(currentWeather.getTime());
 
     }
