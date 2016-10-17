@@ -60,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
+        favoriteCityList.clear();
+        favoriteCityList.addAll(dbManager.getAll());
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actions,menu);

@@ -1,10 +1,14 @@
 package com.example.akarsh.hw06;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +61,49 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
         recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
         recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.cityweather_actions,menu);
+        return  true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.settings:
+                invokeSettings();
+                return true;
+
+            case R.id.actionSaveCity:
+                saveCity();
+                return true;
+        }
+        return true;
+    }
+
+    private void invokeSettings() {
+        Intent intent = new Intent(this,Preferences.class);
+        startActivity(intent);
+    }
+
+    private void saveCity() {
+        // Get the first daily weather data
+        DailyWeather dailyWeather = dailyData.get(0);
+
+        FavoriteCity favoriteCity = new FavoriteCity();
+        favoriteCity.setCity(dailyWeather.getCity());
+        favoriteCity.setCountry(dailyWeather.getCountry());
+        favoriteCity.setFavorite(false);
+        favoriteCity.setTemperature(dailyWeather.getAverageTemperature());
+
+        FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
+        dbManager.addFavoriteCity(favoriteCity);
+        dbManager.close();
     }
 
     @Override

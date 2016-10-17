@@ -12,4 +12,5 @@
     <string name="textLabelHumidity">Humidity:</string>
     <string name="textLabelCondition">Condition:</string>
     <string name="textLabelTemperature">Temperature:</string>
+    <string name="actionSaveCity">Save City</string>
 </resources>

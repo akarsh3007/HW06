@@ -54,7 +54,8 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         FavoriteCity currentFavorite = favoriteCityList.get(position);
 
         holder.textUpdate.setText("TEST");
-        holder.textTemperature.setText("TEST");
+        holder.textTemperature.setText(Double.toString(currentFavorite.getTemperature()));
+        holder.textLocation.setText(currentFavorite.getCity() + ", " + currentFavorite.getCountry());
 
     }
 
