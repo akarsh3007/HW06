@@ -82,7 +82,7 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
                 JSONArray currentWeather = currentForecast.getJSONArray("weather");
                 JSONObject currentWind = currentForecast.getJSONObject("wind");
                 String time = currentForecast.getString("dt_txt");
-                String temp = currentMain.getString("temp");
+                double temp = currentMain.getDouble("temp");
                 String maxTemp = currentMain.getString("temp_max");
                 String minTemp = currentMain.getString("temp_min");
                 String pressure = currentMain.getString("pressure");
@@ -92,7 +92,7 @@ public class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList
                 String windSpeed = currentWind.getString("speed");
                 String windDir = currentWind.getString("deg");
 
-                Weather weather = new Weather(cityId,cityName,country,temp,null,maxTemp,minTemp,windSpeed,windDir,pressure,humidity,weatherType,dateTime,imageIconUrl);
+                Weather weather = new Weather(cityId,cityName,country,temp,Weather.WEATHER_CELSIUS,maxTemp,minTemp,windSpeed,windDir,pressure,humidity,weatherType,dateTime,imageIconUrl);
                 weatherList.add(weather);
             }
             return weatherList;

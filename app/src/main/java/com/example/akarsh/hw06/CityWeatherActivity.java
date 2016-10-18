@@ -92,14 +92,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     }
 
     private void saveCity() {
-        // Get the first daily weather data
-        DailyWeather dailyWeather = dailyData.get(0);
-
-        FavoriteCity favoriteCity = new FavoriteCity();
-        favoriteCity.setCity(dailyWeather.getCity());
-        favoriteCity.setCountry(dailyWeather.getCountry());
-        favoriteCity.setFavorite(false);
-        favoriteCity.setTemperature(dailyWeather.getAverageTemperature());
+        FavoriteCity favoriteCity = new FavoriteCity(weatherData.get(0));
 
         FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
         dbManager.addFavoriteCity(favoriteCity);
@@ -155,7 +148,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         double temperature = 0;
         for (Weather hourlyData:weatherData
              ) {
-            temperature += Double.parseDouble(hourlyData.getTemperature());
+            temperature += hourlyData.getTemperature();
         }
         double averageTemperature = temperature / weatherData.size();
 
@@ -170,8 +163,8 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         DailyWeather dailyWeatherData = new DailyWeather();
 
         // Simplify the date format
-        SimpleDateFormat dataFormat = new SimpleDateFormat("MMM dd, yyyy");
-        dailyWeatherData.setDate(dataFormat.format(currentWeather.getDate()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        dailyWeatherData.setTime(dateFormat.format(currentWeather.getDate()));
 
         // Fill the remaining properties
         dailyWeatherData.setCityId(currentWeather.getCityId());

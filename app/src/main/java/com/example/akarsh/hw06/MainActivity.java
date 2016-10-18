@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,16 +48,11 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Weather App");
 
-        FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
-        favoriteCityList = dbManager.getAll();
-
-        // TEST CODE ONLY
+        // Setup recycler view
         favoriteCityList = new ArrayList<FavoriteCity>();
-        favoriteCityList.add(new FavoriteCity());
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
         recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //------
 
     }
 
@@ -68,6 +65,25 @@ public class MainActivity extends AppCompatActivity {
         favoriteCityList.addAll(dbManager.getAll());
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
         recyclerView.getAdapter().notifyDataSetChanged();
+
+
+        String[] units = getResources().getStringArray(R.array.temperaturePreferences);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentUnit = preferences.getString(TEMP_PREF_KEY,units[0]);
+
+        int unit;
+        if (currentUnit.equals(units[1])){
+            unit = Weather.WEATHER_FAHRENHEIT;
+        } else {
+            unit = Weather.WEATHER_CELSIUS;
+        }
+
+        for (FavoriteCity favoriteCity: favoriteCityList
+             ) {
+            favoriteCity.setTemperatureUnit(unit);
+        }
+
     }
 
     @Override

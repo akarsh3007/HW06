@@ -36,7 +36,7 @@ public class FavoriteCityTableDAO {
     }
 
     public List<FavoriteCity> getAll(){
-        List<FavoriteCity> cityList = null;
+        List<FavoriteCity> cityList = new ArrayList<>();
 
         Cursor c =  db.query(FavoriteCityTable.TABLE_NAME,new String[] {FavoriteCityTable.COLUMN_CITY,FavoriteCityTable.COLUMN_COUNTRY,FavoriteCityTable.COLUMN_TEMPERATURE,FavoriteCityTable.COLUMN_FAVORITE},null,null,null,null,null);
 

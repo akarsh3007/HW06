@@ -2,8 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorButtonNormal">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
     <TextView
         android:text="TextView"
@@ -46,5 +48,6 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/star_gray"
         android:id="@+id/imageButtonFavorite"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />
 </RelativeLayout>
