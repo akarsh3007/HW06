@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -46,6 +47,15 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View rowView = layoutInflater.inflate(R.layout.favorite_city_row,parent,false);
 
+        // Attach listeners to the rowView
+        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(mContext,"HELLO",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         return new ViewHolder(rowView);
     }
 
@@ -54,7 +64,7 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         FavoriteCity currentFavorite = favoriteCityList.get(position);
 
         holder.textUpdate.setText("TEST");
-        holder.textTemperature.setText(Double.toString(currentFavorite.getTemperature()));
+        holder.textTemperature.setText(currentFavorite.getTemperatureText());
         holder.textLocation.setText(currentFavorite.getCity() + ", " + currentFavorite.getCountry());
 
     }
