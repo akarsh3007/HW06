@@ -13,10 +13,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
- * Created by ahmet on 16/10/2016.
- */
-
 public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityListAdapter.ViewHolder> {
 
     private IFavoriteListener mListener;
@@ -70,7 +66,7 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         holder.textUpdate.setText("TEST");
         holder.textTemperature.setText(currentFavorite.getTemperatureText());
         holder.textLocation.setText(currentFavorite.getCity() + ", " + currentFavorite.getCountry());
-
+        holder.textUpdate.setText("Updated on: " + currentFavorite.getUpdatedText());
 
 
         if (currentFavorite.getFavorite()){

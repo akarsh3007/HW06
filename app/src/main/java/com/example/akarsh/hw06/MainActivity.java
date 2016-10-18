@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.preference.Preference;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         actionBar.setTitle("Weather App");
 
         // Setup recycler view
-        favoriteCityList = new ArrayList<FavoriteCity>();
+        favoriteCityList = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
         recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList,this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -117,14 +115,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo !=null && networkInfo.isConnected())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (networkInfo !=null && networkInfo.isConnected());
     }
 
     // Submit button click
@@ -181,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
                 @Override
                 public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
                     if(favoriteCity.getFavorite() == t1.getFavorite()){
+                        // TODO Check by update date and not temp
                         return (int) (favoriteCity.getTemperature() - t1.getTemperature());
                     } else if(favoriteCity.getFavorite()) {
                         return -1;

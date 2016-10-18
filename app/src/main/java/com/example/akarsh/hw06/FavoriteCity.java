@@ -1,8 +1,13 @@
 package com.example.akarsh.hw06;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class FavoriteCity extends Weather {
 
     private Boolean isFavorite;
+    private Date updated;
 
     public FavoriteCity(){}
 
@@ -12,6 +17,8 @@ public class FavoriteCity extends Weather {
         this.setCity(weatherData.getCity());
         this.setCountry(weatherData.getCountry());
         this.setFavorite(false);
+        Date creationDate = new Date(System.currentTimeMillis());
+        this.setUpdated(creationDate);
     }
 
     public Boolean getFavorite() {
@@ -27,5 +34,18 @@ public class FavoriteCity extends Weather {
         return "FavoriteCity{" +
                 "isFavorite=" + isFavorite +
                 '}';
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getUpdatedText(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        return dateFormat.format(this.updated);
     }
 }

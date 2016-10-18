@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FavoriteCityTableDAO {
@@ -20,6 +21,7 @@ public class FavoriteCityTableDAO {
         values.put(FavoriteCityTable.COLUMN_CITY, favoriteCity.getCity());
         values.put(FavoriteCityTable.COLUMN_COUNTRY, favoriteCity.getCountry());
         values.put(FavoriteCityTable.COLUMN_TEMPERATURE, favoriteCity.getTemperature());
+        values.put(FavoriteCityTable.COLUMN_UPDATED, favoriteCity.getUpdated().getTime());
 
         return db.insert(FavoriteCityTable.TABLE_NAME,null,values);
     }
@@ -27,6 +29,7 @@ public class FavoriteCityTableDAO {
     public boolean updateCity (FavoriteCity favoriteCity){
         ContentValues values = new ContentValues();
         values.put(FavoriteCityTable.COLUMN_FAVORITE,favoriteCity.getFavorite());
+        values.put(FavoriteCityTable.COLUMN_UPDATED,favoriteCity.getUpdated().getTime());
 
         StringBuilder sb = new StringBuilder();
         sb.append(FavoriteCityTable.COLUMN_COUNTRY + " = ? ");
@@ -46,7 +49,12 @@ public class FavoriteCityTableDAO {
     public List<FavoriteCity> getAll(){
         List<FavoriteCity> cityList = new ArrayList<>();
 
-        Cursor c =  db.query(FavoriteCityTable.TABLE_NAME,new String[] {FavoriteCityTable.COLUMN_CITY,FavoriteCityTable.COLUMN_COUNTRY,FavoriteCityTable.COLUMN_TEMPERATURE,FavoriteCityTable.COLUMN_FAVORITE},null,null,null,null,null);
+        Cursor c =  db.query(FavoriteCityTable.TABLE_NAME,
+                new String[] {FavoriteCityTable.COLUMN_CITY,
+                        FavoriteCityTable.COLUMN_COUNTRY,
+                        FavoriteCityTable.COLUMN_TEMPERATURE,
+                        FavoriteCityTable.COLUMN_FAVORITE,
+                        FavoriteCityTable.COLUMN_UPDATED},null,null,null,null,null);
 
         if (c != null && c.moveToFirst()){
             cityList = new ArrayList<FavoriteCity>();
@@ -73,9 +81,9 @@ public class FavoriteCityTableDAO {
         } else {
             favoriteCity.setFavorite(false);
         }
-
+        Date updatedDate = new Date(c.getInt(4));
+        favoriteCity.setUpdated(updatedDate);
         return favoriteCity;
-
     }
 
 }
