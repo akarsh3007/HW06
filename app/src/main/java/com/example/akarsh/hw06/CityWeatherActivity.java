@@ -2,6 +2,8 @@ package com.example.akarsh.hw06;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +63,28 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
         recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
         recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+    }
+
+    @Override
+    protected void onResume() {
+        String[] units = getResources().getStringArray(R.array.temperaturePreferences);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,units[0]);
+
+        int unit;
+        if (currentUnit.equals(units[1])){
+            unit = Weather.WEATHER_FAHRENHEIT;
+        } else {
+            unit = Weather.WEATHER_CELSIUS;
+        }
+
+        for (Weather weather: weatherData
+                ) {
+            weather.setTemperatureUnit(unit);
+        }
+
+        super.onResume();
     }
 
     @Override

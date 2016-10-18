@@ -31,4 +31,8 @@ public class FavoriteCityDatabaseManager {
     public List<FavoriteCity> getAll() {
         return dao.getAll();
     }
+
+    public boolean updateCity(FavoriteCity favoriteCity){
+        return dao.updateCity(favoriteCity);
+    }
 }

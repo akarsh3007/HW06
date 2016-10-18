@@ -21,4 +21,11 @@ public class FavoriteCity extends Weather {
     public void setFavorite(Boolean favorite) {
         isFavorite = favorite;
     }
+
+    @Override
+    public String toString() {
+        return "FavoriteCity{" +
+                "isFavorite=" + isFavorite +
+                '}';
+    }
 }

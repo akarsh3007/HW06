@@ -1,6 +1,8 @@
 package com.example.akarsh.hw06;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.util.List;
 
 public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityListAdapter.ViewHolder> {
 
+    private IFavoriteListener mListener;
     private Context mContext;
     private List<FavoriteCity> favoriteCityList;
 
@@ -37,9 +40,10 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         }
     }
 
-    public FavoriteCityListAdapter(Context mContext, List<FavoriteCity> favoriteCityList) {
+    public FavoriteCityListAdapter(Context mContext, List<FavoriteCity> favoriteCityList, IFavoriteListener mListener) {
         this.mContext = mContext;
         this.favoriteCityList = favoriteCityList;
+        this.mListener = mListener;
     }
 
     @Override
@@ -60,17 +64,36 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         FavoriteCity currentFavorite = favoriteCityList.get(position);
 
         holder.textUpdate.setText("TEST");
         holder.textTemperature.setText(currentFavorite.getTemperatureText());
         holder.textLocation.setText(currentFavorite.getCity() + ", " + currentFavorite.getCountry());
 
+
+
+        if (currentFavorite.getFavorite()){
+            holder.imageButtonFavorite.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
+        } else {
+            holder.imageButtonFavorite.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gray));
+        }
+
+        holder.imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.toggleFavorite(position);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return favoriteCityList.size();
+    }
+
+    public interface IFavoriteListener{
+        void toggleFavorite(int position);
     }
 }

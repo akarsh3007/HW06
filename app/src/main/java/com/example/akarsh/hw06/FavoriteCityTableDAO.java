@@ -24,8 +24,16 @@ public class FavoriteCityTableDAO {
         return db.insert(FavoriteCityTable.TABLE_NAME,null,values);
     }
 
-    public void updateCity (FavoriteCity favoriteCity){
-        //TODO Implement Function
+    public boolean updateCity (FavoriteCity favoriteCity){
+        ContentValues values = new ContentValues();
+        values.put(FavoriteCityTable.COLUMN_FAVORITE,favoriteCity.getFavorite());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(FavoriteCityTable.COLUMN_COUNTRY + " = ? ");
+        sb.append(" AND ");
+        sb.append(FavoriteCityTable.COLUMN_CITY + " = ? ");
+
+        return (db.update(FavoriteCityTable.TABLE_NAME,values,sb.toString(),new String[]{favoriteCity.getCountry(),favoriteCity.getCity()}) > 0);
 
     }
 
@@ -60,7 +68,7 @@ public class FavoriteCityTableDAO {
         favoriteCity.setCity(c.getString(0));
         favoriteCity.setTemperature(c.getDouble(2));
         favoriteCity.setCountry(c.getString(1));
-        if (c.getInt(3) > 1 ) {
+        if (c.getInt(3) == 1 ) {
             favoriteCity.setFavorite(true);
         } else {
             favoriteCity.setFavorite(false);

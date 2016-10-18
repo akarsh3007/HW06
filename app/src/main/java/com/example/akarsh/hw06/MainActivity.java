@@ -23,7 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FavoriteCityListAdapter.IFavoriteListener {
 
     public static String CITY_EXTRAS_KEY = "extras_city";
     public static String COUNTRY_EXTRAS_KEY = "extras_country";
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Setup recycler view
         favoriteCityList = new ArrayList<FavoriteCity>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
-        recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList));
+        recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList,this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -166,5 +166,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"Not connected to Internet",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    @Override
+    public void toggleFavorite(int position) {
+        FavoriteCity updatedCity = favoriteCityList.get(position);
+        updatedCity.setFavorite(!updatedCity.getFavorite());
+        FavoriteCityDatabaseManager databaseManager = new FavoriteCityDatabaseManager(this);
+
+        if (databaseManager.updateCity(updatedCity)){
+            ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
+        }
     }
 }
