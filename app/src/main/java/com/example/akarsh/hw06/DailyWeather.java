@@ -12,7 +12,13 @@ public class DailyWeather extends Weather {
     }
 
     public String getAverageTemperatureText(){
-        return String.format("%.2f " , averageTemperature) + getTemperatureUnit();
+        String temperatureUnitText;
+        if (this.getTemperatureUnit() == WEATHER_FAHRENHEIT){
+            temperatureUnitText = " °F";
+        } else {
+            temperatureUnitText = " °C";
+        }
+        return String.format("%.2f " , averageTemperature) + temperatureUnitText;
     }
 }
 

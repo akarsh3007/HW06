@@ -10,7 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/textHourlyTime" />
+        android:id="@+id/textHourlyTime"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="18sp" />
 
     <ImageView
         android:layout_width="match_parent"

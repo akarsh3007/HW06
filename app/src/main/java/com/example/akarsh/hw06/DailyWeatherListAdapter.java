@@ -58,7 +58,7 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
 
         holder.textTemperature.setText(currentWeather.getAverageTemperatureText());
         holder.textDate.setText(currentWeather.getTime());
-        //holder.imageWeather.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.star_gold));
+
 
         Picasso.with(mContext).load(currentWeather.getIconImgUrl()).into(holder.imageWeather);
 

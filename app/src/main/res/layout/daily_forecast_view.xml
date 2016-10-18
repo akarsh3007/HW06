@@ -9,7 +9,9 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textDate" />
+        android:id="@+id/textDate"
+        android:textAlignment="center"
+        android:textStyle="normal|bold" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -21,5 +23,6 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textTemperature" />
+        android:id="@+id/textTemperature"
+        android:textAlignment="center" />
 </LinearLayout>
