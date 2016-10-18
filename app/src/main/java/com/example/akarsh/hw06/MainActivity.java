@@ -172,8 +172,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
                 @Override
                 public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
                     if(favoriteCity.getFavorite() == t1.getFavorite()){
-                        // TODO Check by update date and not temp
-                        return (int) (favoriteCity.getTemperature() - t1.getTemperature());
+                        return favoriteCity.getUpdated().compareTo(t1.getUpdated());
                     } else if(favoriteCity.getFavorite()) {
                         return -1;
                     } else {
