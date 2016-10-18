@@ -21,6 +21,7 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        public View contentView;
         public TextView textLocation;
         public TextView textTemperature;
         public TextView textUpdate;
@@ -29,6 +30,7 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
         public ViewHolder(View itemView) {
             super(itemView);
 
+            contentView = itemView;
             textLocation = (TextView) itemView.findViewById(R.id.textLocation);
             textTemperature = (TextView) itemView.findViewById(R.id.textTemperature);
             textUpdate = (TextView) itemView.findViewById(R.id.textUpdate);
@@ -46,15 +48,6 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View rowView = layoutInflater.inflate(R.layout.favorite_city_row,parent,false);
-
-        // Attach listeners to the rowView
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Toast.makeText(mContext,"HELLO",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
 
         return new ViewHolder(rowView);
     }
@@ -82,6 +75,17 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
             }
         });
 
+
+        // Attach listeners to the rowView
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mListener.removeFavorite(position);
+                return true;
+            }
+        });
+
+
     }
 
     @Override
@@ -91,5 +95,6 @@ public class FavoriteCityListAdapter extends RecyclerView.Adapter<FavoriteCityLi
 
     public interface IFavoriteListener{
         void toggleFavorite(int position);
+        void removeFavorite(int position);
     }
 }

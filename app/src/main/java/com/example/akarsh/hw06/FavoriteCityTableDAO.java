@@ -26,6 +26,15 @@ public class FavoriteCityTableDAO {
         return db.insert(FavoriteCityTable.TABLE_NAME,null,values);
     }
 
+    public boolean deleteCity (FavoriteCity favoriteCity){
+        StringBuilder sb = new StringBuilder();
+        sb.append(FavoriteCityTable.COLUMN_COUNTRY + " = ? ");
+        sb.append(" AND ");
+        sb.append(FavoriteCityTable.COLUMN_CITY + " = ? ");
+
+        return (db.delete(FavoriteCityTable.TABLE_NAME,sb.toString(),new String[]{favoriteCity.getCountry(),favoriteCity.getCity()}) > 0);
+    }
+
     public boolean updateCity (FavoriteCity favoriteCity){
         ContentValues values = new ContentValues();
         values.put(FavoriteCityTable.COLUMN_FAVORITE,favoriteCity.getFavorite());

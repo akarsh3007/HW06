@@ -35,4 +35,8 @@ public class FavoriteCityDatabaseManager {
     public boolean updateCity(FavoriteCity favoriteCity){
         return dao.updateCity(favoriteCity);
     }
+
+    public boolean deleteCity(FavoriteCity favoriteCity){
+        return dao.deleteCity(favoriteCity);
+    }
 }

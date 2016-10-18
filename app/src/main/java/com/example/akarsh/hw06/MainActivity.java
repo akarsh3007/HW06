@@ -184,4 +184,31 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
             ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void removeFavorite(int position) {
+        FavoriteCity favoriteToRemove = favoriteCityList.get(position);
+        favoriteCityList.remove(position);
+        FavoriteCityDatabaseManager databaseManager = new FavoriteCityDatabaseManager(this);
+
+        if (databaseManager.updateCity(favoriteToRemove)){
+            Collections.sort(favoriteCityList, new Comparator<FavoriteCity>() {
+                @Override
+                public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
+                    if(favoriteCity.getFavorite() == t1.getFavorite()){
+                        return favoriteCity.getUpdated().compareTo(t1.getUpdated());
+                    } else if(favoriteCity.getFavorite()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+
+                }
+            });
+
+            ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
+        }
+
+
+    }
 }
