@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements FavoriteCityListAdapter.IFavoriteListener {
@@ -175,6 +177,19 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         FavoriteCityDatabaseManager databaseManager = new FavoriteCityDatabaseManager(this);
 
         if (databaseManager.updateCity(updatedCity)){
+            Collections.sort(favoriteCityList, new Comparator<FavoriteCity>() {
+                @Override
+                public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
+                    if(favoriteCity.getFavorite() == t1.getFavorite()){
+                        return (int) (favoriteCity.getTemperature() - t1.getTemperature());
+                    } else if(favoriteCity.getFavorite()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+
+                }
+            });
             ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
         }
     }
