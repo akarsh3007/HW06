@@ -32,7 +32,6 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     private ArrayList<Weather> weatherData;
     private ArrayList<Weather> hourlyData;
     private ArrayList<DailyWeather> dailyData;
-    private TextView textViewCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
     private void invokeSettings() {
         Intent intent = new Intent(this,Preferences.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
 
     private void saveCity() {
@@ -247,13 +246,11 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     }
 
     private void updateTemperatureUnits(){
-        String[] units = getResources().getStringArray(R.array.temperaturePreferences);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,units[0]);
+        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,Preferences.TEMP_UNIT_C_SYMBOL);
 
         int unit;
-        if (currentUnit.equals(units[1])){
+        if (currentUnit.equals(Preferences.TEMP_UNIT_F_SYMBOL)){
             unit = Weather.WEATHER_FAHRENHEIT;
         } else {
             unit = Weather.WEATHER_CELSIUS;
@@ -277,7 +274,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
         if(resultCode == Preferences.TEMP_UNIT_CHANGED_TO_C) {
             Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_C_SYMBOL, Toast.LENGTH_SHORT).show();
-        } else if (requestCode == Preferences.TEMP_UNIT_CHANGED_TO_F) {
+        } else if (resultCode == Preferences.TEMP_UNIT_CHANGED_TO_F) {
             Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_F_SYMBOL, Toast.LENGTH_SHORT).show();
         }
     }
