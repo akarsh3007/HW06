@@ -207,7 +207,6 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
     }
 
-    @Override
     public void onError(String errorMessage) {
         progressLoadingData.dismiss();
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();

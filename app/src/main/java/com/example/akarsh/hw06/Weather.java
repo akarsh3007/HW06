@@ -1,15 +1,9 @@
 package com.example.akarsh.hw06;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by Akarsh on 10/14/2016.
- */
 
 public class Weather {
 
@@ -17,20 +11,18 @@ public class Weather {
     public static int WEATHER_FAHRENHEIT = 2;
 
 
-    private String cityId, city, country,maximumTemperature,minimumTemperature,
+    private String cityId, city, country,
     windSpeed,windDirection,pressure,humidity,condition,time,iconImgUrl;
 
     private double temperature;
     private int temperatureUnit = 1;
 
-    public Weather(String cityId, String city, String country, double temperature, int temperatureUnit, String maximumTemperature, String minimumTemperature, String windSpeed, String windDirection, String pressure, String humidity, String condition, String time, String iconImgUrl) {
+    public Weather(String cityId, String city, String country, double temperature, int temperatureUnit, String windSpeed, String windDirection, String pressure, String humidity, String condition, String time, String iconImgUrl) {
         this.cityId = cityId;
         this.city = city;
         this.country = country;
         this.temperature = temperature;
         this.temperatureUnit = temperatureUnit;
-        this.maximumTemperature = maximumTemperature;
-        this.minimumTemperature = minimumTemperature;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.pressure = pressure;
@@ -107,22 +99,6 @@ public class Weather {
             }
             this.temperatureUnit = temperatureUnit;
         }
-    }
-
-    public String getMaximumTemperature() {
-        return maximumTemperature;
-    }
-
-    public void setMaximumTemperature(String maximumTemperature) {
-        this.maximumTemperature = maximumTemperature;
-    }
-
-    public String getMinimumTemperature() {
-        return minimumTemperature;
-    }
-
-    public void setMinimumTemperature(String minimumTemperature) {
-        this.minimumTemperature = minimumTemperature;
     }
 
     public String getWindSpeed() {
