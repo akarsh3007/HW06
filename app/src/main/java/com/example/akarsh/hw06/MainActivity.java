@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         favoriteCityList.remove(position);
         FavoriteCityDatabaseManager databaseManager = new FavoriteCityDatabaseManager(this);
 
-        if (databaseManager.updateCity(favoriteToRemove)){
+        if (databaseManager.deleteCity(favoriteToRemove)){
             Collections.sort(favoriteCityList, new Comparator<FavoriteCity>() {
                 @Override
                 public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {

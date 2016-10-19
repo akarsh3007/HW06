@@ -90,7 +90,7 @@ public class FavoriteCityTableDAO {
         } else {
             favoriteCity.setFavorite(false);
         }
-        Date updatedDate = new Date(c.getInt(4));
+        Date updatedDate = new Date(c.getLong(4));
         favoriteCity.setUpdated(updatedDate);
         return favoriteCity;
     }
