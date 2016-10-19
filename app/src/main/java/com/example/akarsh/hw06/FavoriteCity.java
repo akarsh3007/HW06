@@ -10,9 +10,9 @@ public class FavoriteCity extends Weather {
 
     public FavoriteCity(){}
 
-    public FavoriteCity(Weather weatherData){
+    public FavoriteCity(DailyWeather weatherData){
         super();
-        this.setTemperature(weatherData.getTemperature());
+        this.setTemperature(weatherData.getAverageTemperature());
         this.setCity(weatherData.getCity());
         this.setCountry(weatherData.getCountry());
         this.setFavorite(false);

@@ -29,16 +29,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
     public static String COUNTRY_EXTRAS_KEY = "extras_country";
     public static String TEMP_PREF_KEY = "list_preference_temp_key";
 
+    public static int TEMP_UNIT = 1;
+
     EditText txtCityName;
     EditText txtCountryName;
     Button  buttonSubmit;
 
     private List<FavoriteCity> favoriteCityList;
     private FavoriteCityListAdapter favoriteListAdapter;
-
-    private int temperatureUnit;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +56,35 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         recyclerView.setAdapter(favoriteListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        temperatureUnit = currentTemperatureUnit();
+        TEMP_UNIT = currentTemperatureUnit();
 
     }
 
     @Override
     protected void onResume() {
+        TEMP_UNIT = currentTemperatureUnit();
+
         super.onResume();
 
         FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
         favoriteCityList.clear();
         favoriteCityList.addAll(dbManager.getAll());
 
-        //int currentTemperatureUnit = currentTemperatureUnit();
-        for (FavoriteCity favoriteCity: favoriteCityList
-                ) {
-            favoriteCity.setTemperatureUnit(currentTemperatureUnit());
-        }
+        Collections.sort(favoriteCityList, new Comparator<FavoriteCity>() {
+            @Override
+            public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
+                if(favoriteCity.getFavorite() == t1.getFavorite()){
+                    return -favoriteCity.getUpdated().compareTo(t1.getUpdated());
+                } else if(favoriteCity.getFavorite()) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+
+            }
+        });
 
         favoriteListAdapter.notifyDataSetChanged();
-
-
         checkIfFavoriteExists();
 
     }
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        TEMP_UNIT = currentTemperatureUnit();
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Preferences.TEMP_UNIT_CHANGED_TO_C) {
@@ -206,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
                 @Override
                 public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
                     if(favoriteCity.getFavorite() == t1.getFavorite()){
-                        return favoriteCity.getUpdated().compareTo(t1.getUpdated());
+                        return -favoriteCity.getUpdated().compareTo(t1.getUpdated());
                     } else if(favoriteCity.getFavorite()) {
                         return -1;
                     } else {
@@ -230,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
                 @Override
                 public int compare(FavoriteCity favoriteCity, FavoriteCity t1) {
                     if(favoriteCity.getFavorite() == t1.getFavorite()){
-                        return favoriteCity.getUpdated().compareTo(t1.getUpdated());
+                        return -favoriteCity.getUpdated().compareTo(t1.getUpdated());
                     } else if(favoriteCity.getFavorite()) {
                         return -1;
                     } else {
@@ -240,11 +247,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
                 }
             });
 
-            ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
+        ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
         }
-
         checkIfFavoriteExists();
-
-
     }
 }

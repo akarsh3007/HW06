@@ -15,14 +15,12 @@ public class Weather {
     windSpeed,windDirection,pressure,humidity,condition,time,iconImgUrl;
 
     private double temperature;
-    private int temperatureUnit = 1;
 
-    public Weather(String cityId, String city, String country, double temperature, int temperatureUnit, String windSpeed, String windDirection, String pressure, String humidity, String condition, String time, String iconImgUrl) {
+    public Weather(String cityId, String city, String country, double temperature, String windSpeed, String windDirection, String pressure, String humidity, String condition, String time, String iconImgUrl) {
         this.cityId = cityId;
         this.city = city;
         this.country = country;
         this.temperature = temperature;
-        this.temperatureUnit = temperatureUnit;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.pressure = pressure;
@@ -77,28 +75,11 @@ public class Weather {
     }
 
     public double getTemperature() {
-        return temperature;
+            return temperature;
     }
 
     public void setTemperature(double temperature) {
         this.temperature = temperature;
-    }
-
-    public int getTemperatureUnit() {
-        return temperatureUnit;
-    }
-
-    public void setTemperatureUnit(int temperatureUnit) {
-        if (temperatureUnit != this.temperatureUnit){
-            if (this.temperatureUnit == WEATHER_CELSIUS){
-                // Current unit was celsius -> Convert to F
-                this.temperature = this.temperature * 9 / 5  + 32;
-            } else {
-                // Current unit fas Fahrenheit -> Convert to C
-                this.temperature = (this.temperature - 32) * 5 / 9;
-            }
-            this.temperatureUnit = temperatureUnit;
-        }
     }
 
     public String getWindSpeed() {
@@ -168,8 +149,12 @@ public class Weather {
 
     public String getTemperatureText(){
         String temperatureUnitText;
-        if (temperatureUnit == WEATHER_FAHRENHEIT){
+
+        double temperature = this.getTemperature();
+
+        if (MainActivity.TEMP_UNIT == WEATHER_FAHRENHEIT){
             temperatureUnitText = " °F";
+            temperature = temperature *9 /5 + 32;
         } else {
             temperatureUnitText = " °C";
         }

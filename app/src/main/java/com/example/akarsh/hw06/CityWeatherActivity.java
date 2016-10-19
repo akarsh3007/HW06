@@ -2,8 +2,6 @@ package com.example.akarsh.hw06;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,7 +71,8 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
     @Override
     protected void onResume() {
-        updateTemperatureUnits();
+        dailyWeatherListAdapter.notifyDataSetChanged();
+        hourlyWeatherListAdapter.notifyDataSetChanged();
         super.onResume();
     }
 
@@ -172,7 +171,6 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
                 + " " + dailyWeatherData.get(0).getCity()
             + ", " + dailyWeatherData.get(0).getCountry());
 
-        updateTemperatureUnits();
         RecyclerView recyclerDaily = (RecyclerView) findViewById(R.id.recyclerDaily);
         recyclerDaily.getAdapter().notifyDataSetChanged();
     }
@@ -245,36 +243,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         ((RecyclerView) findViewById(R.id.recyclerHourly)).getAdapter().notifyDataSetChanged();
     }
 
-    private void updateTemperatureUnits(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,Preferences.TEMP_UNIT_C_SYMBOL);
-
-        int unit;
-        if (currentUnit.equals(Preferences.TEMP_UNIT_F_SYMBOL)){
-            unit = Weather.WEATHER_FAHRENHEIT;
-        } else {
-            unit = Weather.WEATHER_CELSIUS;
-        }
-
-        for (DailyWeather weather: dailyData
-                ) {
-            weather.setTemperatureUnit(unit);
-        }
-
-        for (Weather weather: hourlyData){
-            weather.setTemperatureUnit(unit);
-        }
-        dailyWeatherListAdapter.notifyDataSetChanged();
-        hourlyWeatherListAdapter.notifyDataSetChanged();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Preferences.TEMP_UNIT_CHANGED_TO_C) {
+            MainActivity.TEMP_UNIT = Weather.WEATHER_CELSIUS;
             Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_C_SYMBOL, Toast.LENGTH_SHORT).show();
         } else if (resultCode == Preferences.TEMP_UNIT_CHANGED_TO_F) {
+            MainActivity.TEMP_UNIT = Weather.WEATHER_FAHRENHEIT;
             Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_F_SYMBOL, Toast.LENGTH_SHORT).show();
         }
     }

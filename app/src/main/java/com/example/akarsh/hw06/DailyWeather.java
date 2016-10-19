@@ -5,24 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DailyWeather extends Weather {
-    private double averageTemperature;
 
     public double getAverageTemperature() {
-        return averageTemperature;
+        return this.getTemperature();
     }
 
     public void setAverageTemperature(double averageTemperature) {
-        this.averageTemperature = averageTemperature;
+        super.setTemperature(averageTemperature);
     }
 
     public String getAverageTemperatureText(){
-        String temperatureUnitText;
-        if (this.getTemperatureUnit() == WEATHER_FAHRENHEIT){
-            temperatureUnitText = " °F";
-        } else {
-            temperatureUnitText = " °C";
-        }
-        return String.format("%.2f " , averageTemperature) + temperatureUnitText;
+        return super.getTemperatureText();
     }
 
     @Override

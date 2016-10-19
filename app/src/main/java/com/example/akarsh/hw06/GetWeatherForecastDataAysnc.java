@@ -80,7 +80,7 @@ class GetWeatherForecastDataAysnc extends AsyncTask<String,Void,ArrayList<Weathe
                 String windSpeed = currentWind.getString("speed");
                 String windDir = currentWind.getString("deg");
 
-                Weather weather = new Weather(cityId,cityName,country,temp,Weather.WEATHER_CELSIUS,windSpeed,windDir,pressure,humidity,weatherType,dateTime,imageIconUrl);
+                Weather weather = new Weather(cityId,cityName,country,temp,windSpeed,windDir,pressure,humidity,weatherType,dateTime,imageIconUrl);
                 weatherList.add(weather);
             }
             return weatherList;
