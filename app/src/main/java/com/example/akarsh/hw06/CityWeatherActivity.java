@@ -13,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,14 +24,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     private ProgressDialog progressLoadingData;
     private static String API_KEY = "8b54506bb9c5b49d25146fac98e0f8f0";
 
+    private HourlyWeatherListAdapter hourlyWeatherListAdapter;
+    private DailyWeatherListAdapter dailyWeatherListAdapter;
+
     private String city;
     private String country;
     private ArrayList<Weather> weatherData;
     private ArrayList<Weather> hourlyData;
     private ArrayList<DailyWeather> dailyData;
     private TextView textViewCurrentLocation;
-    String maximumTemperature;
-    String minimumTemperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,35 +57,21 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         dailyData = new ArrayList<>();
         hourlyData = new ArrayList<>();
 
+        // Setup recycler views
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerDaily);
-        rv.setAdapter(new DailyWeatherListAdapter(this,dailyData,this));
-        LinearLayoutManager lm = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        rv.setLayoutManager(lm);
+        dailyWeatherListAdapter = new DailyWeatherListAdapter(this,dailyData,this);
+        rv.setAdapter(dailyWeatherListAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
-        recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,hourlyData));
-        recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        hourlyWeatherListAdapter = new HourlyWeatherListAdapter(this,hourlyData);
+        recyclerHourly.setAdapter(hourlyWeatherListAdapter);
+        recyclerHourly.setLayoutManager( new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
     }
 
     @Override
     protected void onResume() {
-        String[] units = getResources().getStringArray(R.array.temperaturePreferences);
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,units[0]);
-
-        int unit;
-        if (currentUnit.equals(units[1])){
-            unit = Weather.WEATHER_FAHRENHEIT;
-        } else {
-            unit = Weather.WEATHER_CELSIUS;
-        }
-
-        for (Weather weather: weatherData
-                ) {
-            weather.setTemperatureUnit(unit);
-        }
-
+        updateTemperatureUnits();
         super.onResume();
     }
 
@@ -167,7 +152,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
             dailyData.add(calculateDailyWeatherData(dailyWeatherData));
         }
 
-
+        updateTemperatureUnits();
         RecyclerView recyclerDaily = (RecyclerView) findViewById(R.id.recyclerDaily);
         recyclerDaily.getAdapter().notifyDataSetChanged();
     }
@@ -179,7 +164,6 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
              ) {
             temperature += hourlyData.getTemperature();
         }
-        double averageTemperature = temperature / weatherData.size();
 
         // Find the median item to use the icon
         int medianData = weatherData.size()/2;
@@ -239,5 +223,30 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         }
 
         ((RecyclerView) findViewById(R.id.recyclerHourly)).getAdapter().notifyDataSetChanged();
+    }
+
+    private void updateTemperatureUnits(){
+        String[] units = getResources().getStringArray(R.array.temperaturePreferences);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentUnit = preferences.getString(MainActivity.TEMP_PREF_KEY,units[0]);
+
+        int unit;
+        if (currentUnit.equals(units[1])){
+            unit = Weather.WEATHER_FAHRENHEIT;
+        } else {
+            unit = Weather.WEATHER_CELSIUS;
+        }
+
+        for (DailyWeather weather: dailyData
+                ) {
+            weather.setTemperatureUnit(unit);
+        }
+
+        for (Weather weather: hourlyData){
+            weather.setTemperatureUnit(unit);
+        }
+        dailyWeatherListAdapter.notifyDataSetChanged();
+        hourlyWeatherListAdapter.notifyDataSetChanged();
     }
 }

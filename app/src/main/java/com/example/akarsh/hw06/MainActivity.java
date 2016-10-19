@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
     Button  buttonSubmit;
 
     private List<FavoriteCity> favoriteCityList;
+    private FavoriteCityListAdapter favoriteListAdapter;
 
 
 
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         // Setup recycler view
         favoriteCityList = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
-        recyclerView.setAdapter(new FavoriteCityListAdapter(this,favoriteCityList,this));
+        favoriteListAdapter = new FavoriteCityListAdapter(this,favoriteCityList,this);
+        recyclerView.setAdapter(favoriteListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -63,9 +65,20 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
         favoriteCityList.clear();
         favoriteCityList.addAll(dbManager.getAll());
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
-        recyclerView.getAdapter().notifyDataSetChanged();
 
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
+        favoriteListAdapter.notifyDataSetChanged();
+
+        int currentTemperatureUnit = currentTemperatureUnit();
+        for (FavoriteCity favoriteCity: favoriteCityList
+             ) {
+            favoriteCity.setTemperatureUnit(currentTemperatureUnit);
+        }
+
+    }
+
+    public int currentTemperatureUnit(){
 
         String[] units = getResources().getStringArray(R.array.temperaturePreferences);
 
@@ -79,11 +92,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
             unit = Weather.WEATHER_CELSIUS;
         }
 
-        for (FavoriteCity favoriteCity: favoriteCityList
-             ) {
-            favoriteCity.setTemperatureUnit(unit);
-        }
-
+        return unit;
     }
 
     @Override
