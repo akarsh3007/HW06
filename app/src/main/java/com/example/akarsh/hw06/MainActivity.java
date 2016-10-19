@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         favoriteCityList.clear();
         favoriteCityList.addAll(dbManager.getAll());
 
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerFavorites);
         favoriteListAdapter.notifyDataSetChanged();
 
         int currentTemperatureUnit = currentTemperatureUnit();
@@ -75,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
              ) {
             favoriteCity.setTemperatureUnit(currentTemperatureUnit);
         }
+
+        checkIfFavoriteExists();
 
     }
 
@@ -170,6 +170,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
 
     }
 
+    public void checkIfFavoriteExists(){
+        if (favoriteCityList.size() > 0){
+            ((TextView) findViewById(R.id.textFavoritesTitle)).setVisibility(View.GONE);
+        } else {
+            ((TextView) findViewById(R.id.textFavoritesTitle)).setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void toggleFavorite(int position) {
         FavoriteCity updatedCity = favoriteCityList.get(position);
@@ -217,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
 
             ((RecyclerView) findViewById(R.id.recyclerFavorites)).getAdapter().notifyDataSetChanged();
         }
+
+        checkIfFavoriteExists();
 
 
     }
