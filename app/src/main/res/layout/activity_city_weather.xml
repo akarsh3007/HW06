@@ -27,7 +27,7 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textDate" />
+        android:id="@+id/textMainDate" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

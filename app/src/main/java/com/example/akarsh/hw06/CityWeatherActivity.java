@@ -14,13 +14,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class CityWeatherActivity extends AppCompatActivity implements IWeatherDataHandler {
+public class CityWeatherActivity extends AppCompatActivity implements IWeatherDataHandler, DailyWeatherListAdapter.IHourlyDateListener {
 
     private ProgressDialog progressLoadingData;
     private static String API_KEY = "8b54506bb9c5b49d25146fac98e0f8f0";
@@ -28,6 +29,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     private String city;
     private String country;
     private ArrayList<Weather> weatherData;
+    private ArrayList<Weather> hourlyData;
     private ArrayList<DailyWeather> dailyData;
     private TextView textViewCurrentLocation;
     String maximumTemperature;
@@ -54,14 +56,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
         weatherData = new ArrayList<>();
         dailyData = new ArrayList<>();
+        hourlyData = new ArrayList<>();
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerDaily);
-        rv.setAdapter(new DailyWeatherListAdapter(this,dailyData));
+        rv.setAdapter(new DailyWeatherListAdapter(this,dailyData,this));
         LinearLayoutManager lm = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rv.setLayoutManager(lm);
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
-        recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,weatherData));
+        recyclerHourly.setAdapter(new HourlyWeatherListAdapter(this,hourlyData));
         recyclerHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
     }
 
@@ -128,6 +131,8 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         weatherData.clear();
         weatherData.addAll(weathers);
         progressLoadingData.dismiss();
+
+        showHourlyDataOn(weathers.get(0).getDate());
 
         RecyclerView recyclerHourly = (RecyclerView) findViewById(R.id.recyclerHourly);
         recyclerHourly.getAdapter().notifyDataSetChanged();
@@ -214,5 +219,26 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
                 finish();
             }
         }, 5000);
+    }
+
+    public void showHourlyDataOn(Date date){
+        SimpleDateFormat shortDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        ((TextView) findViewById(R.id.textMainDate)).setText(shortDateFormat.format(date));
+
+        hourlyData.clear();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("mmddyyyy");
+
+        String dateString = dateFormat.format(date);
+
+        for (Weather currentWeather: weatherData
+             ) {
+                String currentWeatherDate = dateFormat.format(currentWeather.getDate());
+                if (currentWeatherDate.equals( dateString)){
+                    hourlyData.add(currentWeather);
+                }
+        }
+
+        ((RecyclerView) findViewById(R.id.recyclerHourly)).getAdapter().notifyDataSetChanged();
     }
 }

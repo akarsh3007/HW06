@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherListAdapter.ViewHolder> {
 
+    private IHourlyDateListener mListener;
     private Context mContext;
     private List<DailyWeather> dailyWeatherList;
 
@@ -23,6 +25,7 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
         public TextView textDate;
         public TextView textTemperature;
         public ImageView imageWeather;
+        public View itemView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -30,12 +33,14 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
             textDate = (TextView) itemView.findViewById(R.id.textDate);
             textTemperature = (TextView) itemView.findViewById(R.id.textTemperature);
             imageWeather = (ImageView) itemView.findViewById(R.id.imageWeather);
+            this.itemView = itemView;
         }
     }
 
-    public DailyWeatherListAdapter(Context mContext, List<DailyWeather> weatherList) {
+    public DailyWeatherListAdapter(Context mContext, List<DailyWeather> weatherList, IHourlyDateListener listener) {
         this.mContext = mContext;
         this.dailyWeatherList = weatherList;
+        this.mListener = listener;
     }
 
     @Override
@@ -53,19 +58,29 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
         DailyWeather currentWeather = dailyWeatherList.get(position);
 
         holder.textTemperature.setText(currentWeather.getAverageTemperatureText());
         holder.textDate.setText(currentWeather.getTime());
 
-
         Picasso.with(mContext).load(currentWeather.getIconImgUrl()).into(holder.imageWeather);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.showHourlyDataOn(dailyWeatherList.get(position).getDate());
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
         return dailyWeatherList.size();
+    }
+
+    public interface IHourlyDateListener{
+        void showHourlyDataOn(Date date);
     }
 }

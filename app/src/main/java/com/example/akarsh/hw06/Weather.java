@@ -166,7 +166,7 @@ public class Weather {
     }
 
     public Date getDate(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
             return dateFormat.parse(getTime());
         } catch (ParseException e) {

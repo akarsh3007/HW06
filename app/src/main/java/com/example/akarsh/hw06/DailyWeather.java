@@ -1,5 +1,9 @@
 package com.example.akarsh.hw06;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DailyWeather extends Weather {
     private double averageTemperature;
 
@@ -19,6 +23,17 @@ public class DailyWeather extends Weather {
             temperatureUnitText = " °C";
         }
         return String.format("%.2f " , averageTemperature) + temperatureUnitText;
+    }
+
+    @Override
+    public Date getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        try {
+            return dateFormat.parse(getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 
