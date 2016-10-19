@@ -48,6 +48,9 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         city = getIntent().getStringExtra(MainActivity.CITY_EXTRAS_KEY);
         country = getIntent().getStringExtra(MainActivity.COUNTRY_EXTRAS_KEY);
 
+        // Show location on UI
+        ((TextView) findViewById(R.id.textLocation)).setText("Daily Forecast for " +city + ", " + country);
+
         String url = "http://api.openweathermap.org/data/2.5/forecast?q="+city+","+country+"&units=metric"+"&APPID="+API_KEY;
         url = url.replaceAll(" ","%20");
         progressLoadingData.show();
