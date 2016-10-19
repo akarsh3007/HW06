@@ -13,4 +13,8 @@
     <string name="textLabelCondition">Condition: </string>
     <string name="textLabelTemperature">Temperature: </string>
     <string name="actionSaveCity">Save City </string>
+    <string name="hourlyForecastTitle">Three hourly forecast on</string>
+    <string name="dailyForecastTitle">Daily forecast for</string>
+    <string name="toastCityUpdated">City Updated</string>
+    <string name="toastCityAdded">City Saved</string>
 </resources>

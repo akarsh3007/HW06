@@ -107,11 +107,24 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
     }
 
     private void saveCity() {
-        FavoriteCity favoriteCity = new FavoriteCity(weatherData.get(0));
-
         FavoriteCityDatabaseManager dbManager = new FavoriteCityDatabaseManager(this);
-        dbManager.addFavoriteCity(favoriteCity);
+
+        FavoriteCity favoriteCity = new FavoriteCity(dailyData.get(0));
+
+        FavoriteCity existingFavorite =  dbManager.getFavorite(favoriteCity);
+        if (existingFavorite != null){
+            existingFavorite.setTemperature(favoriteCity.getTemperature());
+            existingFavorite.setUpdated(new Date(System.currentTimeMillis()));
+            dbManager.updateCity(existingFavorite);
+
+            Toast.makeText(this,getString(R.string.toastCityUpdated),Toast.LENGTH_SHORT).show();
+        } else {
+            dbManager.addFavoriteCity(favoriteCity);
+            Toast.makeText(this,getString(R.string.toastCityAdded),Toast.LENGTH_SHORT).show();
+        }
+
         dbManager.close();
+
     }
 
     @Override
@@ -154,6 +167,11 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         if (dailyWeatherData != null) {
             dailyData.add(calculateDailyWeatherData(dailyWeatherData));
         }
+
+        // Let's update the location to show what was returned from the API
+        ((TextView) findViewById(R.id.textLocation)).setText(getString(R.string.dailyForecastTitle)
+                + " " + dailyWeatherData.get(0).getCity()
+            + ", " + dailyWeatherData.get(0).getCountry());
 
         updateTemperatureUnits();
         RecyclerView recyclerDaily = (RecyclerView) findViewById(R.id.recyclerDaily);
@@ -209,7 +227,7 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
 
     public void showHourlyDataOn(Date date){
         SimpleDateFormat shortDateFormat = new SimpleDateFormat("MMM dd, yyyy");
-        ((TextView) findViewById(R.id.textMainDate)).setText(shortDateFormat.format(date));
+        ((TextView) findViewById(R.id.textMainDate)).setText(getString(R.string.hourlyForecastTitle) + " " + shortDateFormat.format(date));
 
         hourlyData.clear();
 

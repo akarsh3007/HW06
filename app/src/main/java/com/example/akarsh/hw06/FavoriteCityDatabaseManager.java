@@ -39,4 +39,7 @@ public class FavoriteCityDatabaseManager {
     public boolean deleteCity(FavoriteCity favoriteCity){
         return dao.deleteCity(favoriteCity);
     }
+
+    public FavoriteCity getFavorite(FavoriteCity favoriteCity) { return dao.getCity(favoriteCity);
+    }
 }

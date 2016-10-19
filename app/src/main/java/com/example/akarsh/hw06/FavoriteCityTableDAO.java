@@ -95,4 +95,27 @@ public class FavoriteCityTableDAO {
         return favoriteCity;
     }
 
+    public FavoriteCity getCity(FavoriteCity favoriteCity) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(FavoriteCityTable.COLUMN_COUNTRY + " = ? ");
+        sb.append(" AND ");
+        sb.append(FavoriteCityTable.COLUMN_CITY + " = ? ");
+
+        String[] columnsToGet = new String[] {FavoriteCityTable.COLUMN_CITY,
+                FavoriteCityTable.COLUMN_COUNTRY,
+                FavoriteCityTable.COLUMN_TEMPERATURE,
+                FavoriteCityTable.COLUMN_FAVORITE,
+                FavoriteCityTable.COLUMN_UPDATED};
+
+        String[] whereArgs = new String[] {favoriteCity.getCountry(),favoriteCity.getCity()};
+
+        Cursor c = db.query(FavoriteCityTable.TABLE_NAME,columnsToGet,sb.toString(),whereArgs,null,null,null);
+
+        if (c!=null && c.moveToFirst())
+        {
+            return buildFavoriteFromCursor(c);
+        } else {
+            return null;
+        }
+    }
 }
