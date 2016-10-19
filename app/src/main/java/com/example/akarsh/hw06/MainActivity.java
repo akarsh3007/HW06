@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
     private List<FavoriteCity> favoriteCityList;
     private FavoriteCityListAdapter favoriteListAdapter;
 
+    private int temperatureUnit;
+
 
 
     @Override
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         recyclerView.setAdapter(favoriteListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        temperatureUnit = currentTemperatureUnit();
+
     }
 
     @Override
@@ -66,13 +70,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
         favoriteCityList.clear();
         favoriteCityList.addAll(dbManager.getAll());
 
+        //int currentTemperatureUnit = currentTemperatureUnit();
+        for (FavoriteCity favoriteCity: favoriteCityList
+                ) {
+            favoriteCity.setTemperatureUnit(currentTemperatureUnit());
+        }
+
         favoriteListAdapter.notifyDataSetChanged();
 
-        int currentTemperatureUnit = currentTemperatureUnit();
-        for (FavoriteCity favoriteCity: favoriteCityList
-             ) {
-            favoriteCity.setTemperatureUnit(currentTemperatureUnit);
-        }
 
         checkIfFavoriteExists();
 
@@ -116,7 +121,19 @@ public class MainActivity extends AppCompatActivity implements FavoriteCityListA
 
     private void invokeSettings() {
         Intent intent = new Intent(this,Preferences.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Preferences.TEMP_UNIT_CHANGED_TO_C) {
+            Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_C_SYMBOL, Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Preferences.TEMP_UNIT_CHANGED_TO_F) {
+            Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_F_SYMBOL, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Check internet connection

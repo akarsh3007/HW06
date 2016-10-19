@@ -270,4 +270,15 @@ public class CityWeatherActivity extends AppCompatActivity implements IWeatherDa
         dailyWeatherListAdapter.notifyDataSetChanged();
         hourlyWeatherListAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Preferences.TEMP_UNIT_CHANGED_TO_C) {
+            Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_C_SYMBOL, Toast.LENGTH_SHORT).show();
+        } else if (requestCode == Preferences.TEMP_UNIT_CHANGED_TO_F) {
+            Toast.makeText(this, "Temperature Unit has been changed to " + Preferences.TEMP_UNIT_F_SYMBOL, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
