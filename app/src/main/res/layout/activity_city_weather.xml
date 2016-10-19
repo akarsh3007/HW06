@@ -15,23 +15,33 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textLocation" />
+        android:id="@+id/textLocation"
+        android:textSize="14sp"
+        android:textStyle="normal|bold" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/recyclerDaily"
-        android:layout_weight="1" />
+        android:layout_weight="0"
+        android:scrollbars="horizontal"
+        android:nestedScrollingEnabled="true"
+        android:layout_marginBottom="36dp" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textMainDate" />
+        android:id="@+id/textMainDate"
+        android:textStyle="normal|bold"
+        android:textSize="14sp" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerHourly"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="12dp" />
 </LinearLayout>

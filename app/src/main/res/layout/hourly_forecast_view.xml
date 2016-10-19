@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textHourlyTime"
-        android:textAlignment="center"
-        android:textStyle="normal|bold"
-        android:textSize="18sp" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    android:gravity="center_vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
 
     <ImageView
         android:layout_width="match_parent"
@@ -24,34 +18,101 @@
         android:layout_height="100dp" />
 
     <TextView
+        android:text="@string/textLabelTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageHourlyWeather"
+        android:id="@+id/textHourlyTemperatureLabel"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:text="@string/textLabelCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textHourlyConditionLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textHourlyTemperatureLabel"/>
+
+    <TextView
+        android:text="@string/textLabelPressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textHourlyPressureLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textHourlyConditionLabel"/>
+
+    <TextView
+        android:text="@string/textLabelHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textHourlyHumidityLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textHourlyPressureLabel"/>
+
+    <TextView
+        android:text="@string/textLabelWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textHourlyWindLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textHourlyHumidityLabel"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textHourlyTime"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageHourlyWeather"
-        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/textHourlyTemperatureLabel"
+        android:layout_toEndOf="@+id/textHourlyTemperatureLabel"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:id="@+id/textHourlyTemperature" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textHourlyCondition" />
+        android:id="@+id/textHourlyCondition"
+        android:layout_below="@+id/textHourlyTemperature"
+        android:layout_alignLeft="@+id/textHourlyTemperature"
+        android:layout_alignStart="@+id/textHourlyTemperature" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textHourlyPressure" />
+        android:id="@+id/textHourlyPressure"
+        android:layout_below="@+id/textHourlyCondition"
+        android:layout_alignLeft="@+id/textHourlyCondition"
+        android:layout_alignStart="@+id/textHourlyCondition" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textHourlyHumidity" />
+        android:id="@+id/textHourlyHumidity"
+        android:layout_below="@+id/textHourlyPressure"
+        android:layout_alignLeft="@+id/textHourlyPressure"
+        android:layout_alignStart="@+id/textHourlyPressure" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textHourlyWind" />
-</LinearLayout>
+        android:id="@+id/textHourlyWind"
+        android:layout_below="@+id/textHourlyHumidity"
+        android:layout_alignLeft="@+id/textHourlyHumidity"
+        android:layout_alignStart="@+id/textHourlyHumidity" />
+</RelativeLayout>

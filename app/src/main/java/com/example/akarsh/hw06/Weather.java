@@ -118,7 +118,7 @@ public class Weather {
     }
 
     public String getPressure() {
-        return pressure;
+        return pressure + " hPa";
     }
 
     public void setPressure(String pressure) {
@@ -126,7 +126,11 @@ public class Weather {
     }
 
     public String getHumidity() {
-        return humidity;
+        return humidity + "%";
+    }
+
+    public String getWindText(){
+        return windSpeed + " mps, " + windDirection +"°";
     }
 
     public void setHumidity(String humidity) {
@@ -134,7 +138,18 @@ public class Weather {
     }
 
     public String getCondition() {
-        return condition;
+        StringBuilder upperCaseBuilder = new StringBuilder();
+        upperCaseBuilder.append(Character.toUpperCase(condition.charAt(0)));
+
+        for (int i = 1 ; i < condition.length() ; i++){
+            if (Character.isSpaceChar(condition.charAt(i-1))){
+                upperCaseBuilder.append(Character.toUpperCase(condition.charAt(i)));
+            } else {
+                upperCaseBuilder.append(Character.toLowerCase(condition.charAt(i)));
+            }
+        }
+
+        return upperCaseBuilder.toString();
     }
 
     public void setCondition(String condition) {

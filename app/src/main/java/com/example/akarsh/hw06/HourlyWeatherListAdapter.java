@@ -1,6 +1,7 @@
 package com.example.akarsh.hw06;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,11 +56,11 @@ public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeather
     public void onBindViewHolder(ViewHolder holder, int position) {
         Weather currentWeather = weatherArrayList.get(position);
 
-        holder.textWind.setText(mContext.getString(R.string.textLabelWind) + currentWeather.getWindSpeed());
-        holder.textPressure.setText(mContext.getString(R.string.textLabelPressure) + currentWeather.getPressure());
-        holder.textHumidity.setText(mContext.getString(R.string.textLabelHumidity) + currentWeather.getHumidity());
-        holder.textCondition.setText(mContext.getString(R.string.textLabelCondition) + currentWeather.getCondition());
-        holder.textTemperature.setText(mContext.getString(R.string.textLabelTemperature) + currentWeather.getTemperatureText());
+        holder.textWind.setText(currentWeather.getWindText());
+        holder.textPressure.setText(currentWeather.getPressure());
+        holder.textHumidity.setText(currentWeather.getHumidity());
+        holder.textCondition.setText(currentWeather.getCondition());
+        holder.textTemperature.setText(currentWeather.getTemperatureText());
         SimpleDateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat timeDateFormat = new SimpleDateFormat("h:mm aa");
         String timeDate = "";
@@ -68,10 +69,15 @@ public class HourlyWeatherListAdapter extends RecyclerView.Adapter<HourlyWeather
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         holder.textTime.setText(timeDate);
 
         Picasso.with(mContext).load(currentWeather.getIconImgUrl()).into(holder.imageWeather);
+
+        if (position%2 == 0){
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }
 
     }
 

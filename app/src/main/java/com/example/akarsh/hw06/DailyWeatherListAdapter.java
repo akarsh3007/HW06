@@ -1,7 +1,7 @@
 package com.example.akarsh.hw06;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +72,13 @@ public class DailyWeatherListAdapter extends RecyclerView.Adapter<DailyWeatherLi
                 mListener.showHourlyDataOn(dailyWeatherList.get(position).getDate());
             }
         });
+
+        if (position%2 == 0){
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        } else {
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
 
     }
 
